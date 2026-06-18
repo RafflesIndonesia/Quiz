@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>What Should You Study? | Raffles Jakarta</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Inter:wght@300;400;500;600&display=swap');
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--gold:#C9A84C;--gold-light:#F0DFA0;--black:#111111;--white:#FFFFFF}
+html,body{background:var(--black);color:var(--white);font-family:'Inter',sans-serif;width:100%;overflow-x:hidden;overflow-y:visible;height:auto;min-height:0}
+
+/* INTRO */
+.intro{text-align:center;padding:60px 24px 48px;border-bottom:1px solid rgba(201,168,76,0.15)}
+.intro-eyebrow{font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);margin-bottom:20px}
+.intro-title{font-family:'Playfair Display',serif;font-size:clamp(36px,6vw,64px);font-weight:400;line-height:1.05;margin-bottom:8px}
+.intro-title em{font-style:italic;color:var(--gold)}
+.intro-subtitle{font-family:'Playfair Display',serif;font-size:clamp(16px,2.5vw,22px);color:rgba(255,255,255,0.45);font-weight:400;margin-bottom:24px}
+.intro-desc{font-size:14px;color:rgba(255,255,255,0.45);line-height:1.7;max-width:420px;margin:0 auto 32px;font-weight:300}
+.intro-meta{display:flex;gap:28px;justify-content:center;margin-bottom:36px}
+.intro-meta-item{text-align:center}
+.intro-meta-num{font-family:'Playfair Display',serif;font-size:24px;color:var(--gold)}
+.intro-meta-label{font-size:10px;color:rgba(255,255,255,0.3);letter-spacing:.08em;text-transform:uppercase;margin-top:2px}
+.btn-start{display:inline-flex;align-items:center;gap:10px;background:var(--gold);color:var(--black);font-size:12px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;padding:15px 40px;border:none;cursor:pointer;transition:all .2s;font-family:'Inter',sans-serif}
+.btn-start:hover{background:var(--gold-light)}
+
+/* QUIZ */
+.quiz{display:none;padding:0 24px 60px;max-width:640px;margin:0 auto}
+.quiz.active{display:block}
+
+/* PROGRESS */
+.progress-wrap{padding:28px 0 0;margin-bottom:0}
+.progress-meta{display:flex;justify-content:space-between;margin-bottom:8px;font-size:11px;color:rgba(255,255,255,0.3);letter-spacing:.06em;text-transform:uppercase}
+.progress-track{height:2px;background:rgba(255,255,255,0.08);border-radius:2px}
+.progress-fill{height:100%;background:var(--gold);border-radius:2px;transition:width 0.4s ease;width:0%}
+
+/* QUESTION CARD */
+.q-card{padding:36px 0 0;display:none}
+.q-card.active{display:block}
+.q-num{font-size:11px;letter-spacing:.15em;text-transform:uppercase;color:var(--gold);margin-bottom:12px}
+.q-text{font-family:'Playfair Display',serif;font-size:clamp(18px,3vw,24px);font-weight:400;line-height:1.35;margin-bottom:28px;color:var(--white)}
+.options{display:flex;flex-direction:column;gap:8px}
+.option{display:flex;align-items:flex-start;gap:12px;padding:14px 16px;border:1px solid rgba(255,255,255,0.09);cursor:pointer;transition:all .2s;background:rgba(255,255,255,0.02);width:100%}
+.option:hover{border-color:var(--gold);background:rgba(201,168,76,0.05)}
+.option.selected{border-color:var(--gold);background:rgba(201,168,76,0.1)}
+.opt-letter{width:24px;height:24px;border:1px solid rgba(255,255,255,0.18);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:600;color:rgba(255,255,255,0.35);flex-shrink:0;margin-top:1px;transition:all .2s}
+.option.selected .opt-letter{background:var(--gold);color:var(--black);border-color:var(--gold)}
+.opt-text{font-size:13px;line-height:1.5;color:rgba(255,255,255,0.65);font-weight:300;text-align:left}
+.option.selected .opt-text{color:var(--white)}
+.nav{display:flex;justify-content:center;margin-top:24px}
+.btn-next{background:transparent;border:1px solid rgba(255,255,255,0.15);color:rgba(255,255,255,0.25);font-size:11px;font-weight:500;letter-spacing:.1em;text-transform:uppercase;padding:13px 44px;cursor:pointer;transition:all .2s;pointer-events:none;font-family:'Inter',sans-serif}
+.btn-next.ready{border-color:var(--gold);color:var(--gold);pointer-events:all}
+.btn-next.ready:hover{background:var(--gold);color:var(--black)}
+
+/* LEAD */
+.lead{display:none;padding:48px 0;text-align:center}
+.lead.active{display:block}
+.lead-eyebrow{font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);margin-bottom:16px}
+.lead-title{font-family:'Playfair Display',serif;font-size:28px;font-weight:400;margin-bottom:10px}
+.lead-desc{font-size:13px;color:rgba(255,255,255,0.4);line-height:1.6;margin-bottom:32px;font-weight:300}
+.form-group{margin-bottom:12px;text-align:left}
+.form-label{font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,0.35);margin-bottom:6px;display:block}
+.form-input{width:100%;padding:12px 14px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.1);color:var(--white);font-size:14px;outline:none;transition:border-color .2s;font-family:'Inter',sans-serif}
+.form-input:focus{border-color:var(--gold)}
+.form-input::placeholder{color:rgba(255,255,255,0.18)}
+.form-note{font-size:11px;color:rgba(255,255,255,0.2);margin-top:12px;line-height:1.5;text-align:center}
+.btn-submit{width:100%;margin-top:20px;background:var(--gold);color:var(--black);font-size:12px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;padding:16px;border:none;cursor:pointer;transition:all .2s;font-family:'Inter',sans-serif}
+.btn-submit:hover{background:var(--gold-light)}
+
+/* RESULT */
+.result{display:none;padding:48px 0 0}
+.result.active{display:block}
+.result-greeting{font-size:11px;color:var(--gold);letter-spacing:.1em;text-transform:uppercase;margin-bottom:8px;text-align:center}
+.result-profile{font-family:'Playfair Display',serif;font-size:clamp(28px,5vw,44px);font-weight:400;line-height:1.1;margin-bottom:12px;text-align:center}
+.result-profile em{font-style:italic;color:var(--gold)}
+.result-profile-desc{font-size:13px;color:rgba(255,255,255,0.5);line-height:1.75;font-weight:300;text-align:center;margin-bottom:40px;max-width:500px;margin-left:auto;margin-right:auto}
+.section-label{font-size:10px;letter-spacing:.15em;text-transform:uppercase;color:rgba(255,255,255,0.25);margin-bottom:16px;padding-bottom:8px;border-bottom:1px solid rgba(255,255,255,0.05);text-align:center}
+.careers-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-bottom:40px}
+.career-item{padding:12px 14px;border:1px solid rgba(201,168,76,0.18);background:rgba(201,168,76,0.04);text-align:center}
+.career-title{font-size:12px;font-weight:500;margin-bottom:2px}
+.career-field{font-size:10px;color:rgba(255,255,255,0.3)}
+.program-card{border:1px solid rgba(201,168,76,0.25);background:rgba(201,168,76,0.04);padding:24px;position:relative;margin-bottom:16px}
+.program-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:var(--gold)}
+.program-card.runner{border-color:rgba(255,255,255,0.1);background:rgba(255,255,255,0.02)}
+.program-card.runner::before{background:rgba(255,255,255,0.12)}
+.program-tag{font-size:10px;letter-spacing:.15em;text-transform:uppercase;color:var(--gold);margin-bottom:8px;text-align:center}
+.program-card.runner .program-tag{color:rgba(255,255,255,0.3)}
+.program-name{font-family:'Playfair Display',serif;font-size:22px;font-weight:400;margin-bottom:12px;text-align:center}
+.program-why{font-size:12px;color:rgba(255,255,255,0.5);line-height:1.7;margin-bottom:14px;font-weight:300;border-left:2px solid var(--gold);padding-left:12px}
+.program-card.runner .program-why{border-color:rgba(255,255,255,0.12)}
+.program-desc{font-size:12px;color:rgba(255,255,255,0.38);line-height:1.7;margin-bottom:20px;font-weight:300}
+.btn-apply{display:block;width:100%;text-align:center;background:var(--gold);color:var(--black);font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;padding:12px;border:none;cursor:pointer;text-decoration:none;transition:all .2s;font-family:'Inter',sans-serif}
+.btn-apply:hover{background:var(--gold-light)}
+.program-card.runner .btn-apply{background:transparent;border:1px solid rgba(255,255,255,0.15);color:rgba(255,255,255,0.4)}
+.btn-retake{display:block;width:100%;text-align:center;margin-top:24px;background:transparent;border:1px solid rgba(255,255,255,0.12);color:rgba(255,255,255,0.35);font-size:11px;font-weight:500;letter-spacing:.08em;text-transform:uppercase;padding:12px;cursor:pointer;transition:all .2s;font-family:'Inter',sans-serif;margin-bottom:40px}
+.btn-retake:hover{border-color:rgba(255,255,255,0.35);color:rgba(255,255,255,0.65)}
+</style>
+</head>
+<body>
+
+<!-- INTRO -->
+<div class="intro" id="intro">
+  <div class="intro-eyebrow">Raffles Jakarta</div>
+  <h1 class="intro-title">What Should<br>You <em>Study?</em></h1>
+  <div class="intro-subtitle">Find Your Path</div>
+  <p class="intro-desc">Answer 20 questions and discover the career and program that fits who you really are.</p>
+  <div class="intro-meta">
+    <div class="intro-meta-item"><div class="intro-meta-num">20</div><div class="intro-meta-label">Questions</div></div>
+    <div class="intro-meta-item"><div class="intro-meta-num">3</div><div class="intro-meta-label">Minutes</div></div>
+    <div class="intro-meta-item"><div class="intro-meta-num">10</div><div class="intro-meta-label">Programs</div></div>
+  </div>
+  <button class="btn-start" onclick="startQuiz()">Begin →</button>
+</div>
+
+<!-- QUIZ -->
+<div class="quiz" id="quiz">
+  <div class="progress-wrap">
+    <div class="progress-meta"><span id="prog-label">Question 1 of 20</span><span id="prog-pct">0%</span></div>
+    <div class="progress-track"><div class="progress-fill" id="prog-fill"></div></div>
+  </div>
+  <div id="q-container"></div>
+  <div class="nav"><button class="btn-next" id="btn-next" onclick="nextQ()">Next →</button></div>
+</div>
+
+<!-- LEAD -->
+<div class="lead" id="lead">
+  <div class="lead-eyebrow">Almost there</div>
+  <h2 class="lead-title">Your results are ready.</h2>
+  <p class="lead-desc">Enter your details to reveal your personalised career and program matches.</p>
+  <div class="form-group"><label class="form-label">Full Name</label><input class="form-input" id="inp-name" type="text" placeholder="Your full name"/></div>
+  <div class="form-group"><label class="form-label">Email Address</label><input class="form-input" id="inp-email" type="email" placeholder="your@email.com"/></div>
+  <div class="form-group"><label class="form-label">Phone / WhatsApp</label><input class="form-input" id="inp-phone" type="tel" placeholder="+62 8xx xxxx xxxx"/></div>
+  <p class="form-note">Your information is kept private and will only be used by the Raffles Jakarta admissions team.</p>
+  <button class="btn-submit" onclick="showResults()">Reveal My Results →</button>
+</div>
+
+<!-- RESULT -->
+<div class="result" id="result">
+  <div class="result-greeting" id="res-greeting"></div>
+  <div class="result-profile" id="res-profile"></div>
+  <div class="result-profile-desc" id="res-desc"></div>
+  <div class="section-label">Your Best Career Paths</div>
+  <div class="careers-grid" id="res-careers"></div>
+  <div class="section-label">Your Recommended Program(s)</div>
+  <div id="res-programs"></div>
+  <button class="btn-retake" onclick="retake()">↺ Retake Quiz</button>
+</div>
+
+<script>
+const sA=[
+  {t:"When you have free time, you're more likely to:",o:[{t:"Work on something hands-on or practical",h:'R'},{t:"Explore ideas, concepts, or how things work",h:'I'},{t:"Create something original or expressive",h:'A'},{t:"Spend time helping or talking to people",h:'S'},{t:"Plan something, lead, or start a project",h:'E'},{t:"Organise, arrange, or get things in order",h:'C'}]},
+  {t:"In a group setting, you usually:",o:[{t:"Focus on getting things done physically or practically",h:'R'},{t:"Analyse the problem and suggest solutions",h:'I'},{t:"Come up with creative ideas",h:'A'},{t:"Make sure everyone feels included",h:'S'},{t:"Take charge and guide the group",h:'E'},{t:"Keep things structured and organised",h:'C'}]},
+  {t:"When learning something new, you prefer:",o:[{t:"Trying it out yourself",h:'R'},{t:"Understanding the theory behind it",h:'I'},{t:"Exploring different possibilities",h:'A'},{t:"Discussing it with others",h:'S'},{t:"Applying it to real-world goals",h:'E'},{t:"Following clear steps or instructions",h:'C'}]},
+  {t:"What kind of task do you enjoy most?",o:[{t:"Building, fixing, or working with tools",h:'R'},{t:"Solving complex or technical problems",h:'I'},{t:"Designing or creating something new",h:'A'},{t:"Supporting or guiding others",h:'S'},{t:"Leading or making decisions",h:'E'},{t:"Managing details or systems",h:'C'}]},
+  {t:"When making decisions, you tend to:",o:[{t:"Go with what works practically",h:'R'},{t:"Use logic and analysis",h:'I'},{t:"Follow your ideas or inspiration",h:'A'},{t:"Consider people's feelings",h:'S'},{t:"Focus on results and outcomes",h:'E'},{t:"Stick to proven methods",h:'C'}]},
+  {t:"Which environment suits you best?",o:[{t:"Workshops, labs, or outdoor settings",h:'R'},{t:"Research or problem-solving environments",h:'I'},{t:"Creative or flexible spaces",h:'A'},{t:"People-focused environments",h:'S'},{t:"Fast-paced, goal-driven settings",h:'E'},{t:"Structured and organised workplaces",h:'C'}]},
+  {t:"What motivates you most?",o:[{t:"Seeing tangible results",h:'R'},{t:"Understanding something deeply",h:'I'},{t:"Expressing yourself",h:'A'},{t:"Helping others",h:'S'},{t:"Achieving success or influence",h:'E'},{t:"Keeping things accurate and in order",h:'C'}]},
+  {t:"How do you usually approach tasks?",o:[{t:"Start and adjust as you go",h:'R'},{t:"Think it through before starting",h:'I'},{t:"Explore different ideas first",h:'A'},{t:"Talk it out with others",h:'S'},{t:"Focus on completing it efficiently",h:'E'},{t:"Follow a clear plan",h:'C'}]},
+  {t:"What are you naturally good at?",o:[{t:"Working with tools or physical tasks",h:'R'},{t:"Analysing and solving problems",h:'I'},{t:"Being imaginative or artistic",h:'A'},{t:"Understanding people",h:'S'},{t:"Leading and influencing",h:'E'},{t:"Organising and managing details",h:'C'}]},
+  {t:"Which role sounds most like you?",o:[{t:"The doer",h:'R'},{t:"The thinker",h:'I'},{t:"The creator",h:'A'},{t:"The helper",h:'S'},{t:"The leader",h:'E'},{t:"The organiser",h:'C'}]},
+  {t:"What kind of challenges do you enjoy?",o:[{t:"Practical, hands-on challenges",h:'R'},{t:"Intellectual or technical challenges",h:'I'},{t:"Creative challenges",h:'A'},{t:"Social or people-related challenges",h:'S'},{t:"Competitive or goal-driven challenges",h:'E'},{t:"Detail-oriented or system-based challenges",h:'C'}]},
+  {t:"What feels most satisfying to you?",o:[{t:"Completing something tangible",h:'R'},{t:"Figuring something out",h:'I'},{t:"Creating something original",h:'A'},{t:"Making a difference to someone",h:'S'},{t:"Achieving a big goal",h:'E'},{t:"Keeping everything running smoothly",h:'C'}]}
+];
+const sB=[
+  {t:"Which activity appeals to you most?",o:[{t:"Designing fashion pieces",p:'FD'},{t:"Building and promoting fashion brands",p:'FM'},{t:"Designing interior spaces",p:'ID'},{t:"Creating visual or digital content",p:'VD'},{t:"Managing a business",p:'BU'},{t:"Working in travel or hospitality",p:'TH'},{t:"Developing AI or tech systems",p:'AI'},{t:"Studying human behaviour",p:'PS'}]},
+  {t:"You would enjoy work that involves:",o:[{t:"Creative production in fashion",p:'FD'},{t:"Branding and market strategy",p:'FM'},{t:"Planning spaces and environments",p:'ID'},{t:"Visual storytelling and communication",p:'VD'},{t:"Leadership and decision-making",p:'BU'},{t:"Customer experience and service",p:'TH'},{t:"Data, systems, and technology",p:'AI'},{t:"Human interaction and psychology",p:'PS'}]},
+  {t:"In a project, you prefer to:",o:[{t:"Design the concept",p:'FD'},{t:"Shape how it is presented to the market",p:'FM'},{t:"Plan layout and functionality",p:'ID'},{t:"Create visual outputs",p:'VD'},{t:"Lead and manage",p:'BU'},{t:"Handle people and coordination",p:'TH'},{t:"Solve technical aspects",p:'AI'},{t:"Understand group behaviour",p:'PS'}]},
+  {t:"Which subject interests you most?",o:[{t:"Fashion design",p:'FD'},{t:"Fashion marketing",p:'FM'},{t:"Interior design",p:'ID'},{t:"Visual communication or media",p:'VD'},{t:"Business",p:'BU'},{t:"Hospitality or tourism",p:'TH'},{t:"AI or computing",p:'AI'},{t:"Psychology",p:'PS'}]},
+  {t:"What kind of impact do you want to make?",o:[{t:"Influence style and aesthetics",p:'FD'},{t:"Shape consumer perception",p:'FM'},{t:"Improve how spaces are experienced",p:'ID'},{t:"Communicate ideas visually",p:'VD'},{t:"Build successful businesses",p:'BU'},{t:"Create positive service experiences",p:'TH'},{t:"Innovate through technology",p:'AI'},{t:"Improve people's well-being",p:'PS'}]},
+  {t:"What kind of work environment do you prefer?",o:[{t:"Studio-based creative work",p:'FD'},{t:"Brand or marketing environment",p:'FM'},{t:"Design studio for spaces",p:'ID'},{t:"Media or creative agency",p:'VD'},{t:"Corporate or business setting",p:'BU'},{t:"Hotels, travel, or service industry",p:'TH'},{t:"Tech or innovation environment",p:'AI'},{t:"Research or counselling setting",p:'PS'}]},
+  {t:"Which skill do you want to develop most?",o:[{t:"Fashion creation",p:'FD'},{t:"Marketing and branding",p:'FM'},{t:"Spatial design",p:'ID'},{t:"Visual communication",p:'VD'},{t:"Business strategy",p:'BU'},{t:"Service and experience management",p:'TH'},{t:"Programming or AI development",p:'AI'},{t:"Understanding behaviour",p:'PS'}]},
+  {t:"Which career path feels closest to you?",o:[{t:"Fashion designer",p:'FD'},{t:"Fashion marketer or brand manager",p:'FM'},{t:"Interior designer",p:'ID'},{t:"Graphic or media designer",p:'VD'},{t:"Business manager or entrepreneur",p:'BU'},{t:"Hospitality or tourism professional",p:'TH'},{t:"AI or tech specialist",p:'AI'},{t:"Psychologist or counsellor",p:'PS'}]}
+];
+const allQ=[...sA,...sB];
+const TOTAL=allQ.length;
+const progs={
+  FD:{name:"Fashion Design",profile:"The Creative Visionary",desc:"You see the world through colour, texture, and form. You are drawn to beauty, craftsmanship, and the power of clothing to express identity.",careers:[{t:"Fashion Designer",f:"Fashion and Apparel"},{t:"Creative Director",f:"Fashion and Luxury"},{t:"Costume Designer",f:"Film and Theatre"},{t:"Textile Designer",f:"Materials and Manufacturing"},{t:"Art Director",f:"Fashion Media"}],why:"Your creative and hands-on profile combined with consistent choices toward fashion creation is a direct match for Fashion Design.",pdesc:"Raffles Jakarta's Fashion Design program develops your skills across draping, pattern-making, collection development, and fashion illustration.",url:"https://www.raffles-indonesia.com/fashion-design-program"},
+  FM:{name:"Fashion Marketing",profile:"The Brand Storyteller",desc:"You understand people, trends, and the power of a compelling story. You combine creative instinct with sharp communication skills.",careers:[{t:"Fashion Marketing Manager",f:"Fashion and Retail"},{t:"Brand Strategist",f:"Luxury and Lifestyle"},{t:"Influencer Marketing Manager",f:"Digital Media"},{t:"Retail Buyer",f:"Fashion Retail"},{t:"PR Manager",f:"Fashion Industry"}],why:"Your blend of creative thinking and enterprising drive signals someone who can bridge creative vision and commercial strategy.",pdesc:"The Fashion Marketing program covers brand management, consumer behaviour, digital marketing, and retail strategy.",url:"https://www.raffles-indonesia.com/fashionmarketing"},
+  ID:{name:"Interior Design",profile:"The Space Maker",desc:"You see potential in every space. You are drawn to how environments shape the way people feel and behave. You combine a strong visual eye with practical thinking.",careers:[{t:"Interior Designer",f:"Architecture and Design"},{t:"Space Planner",f:"Corporate and Hospitality"},{t:"Set Designer",f:"Film and Theatre"},{t:"Exhibition Designer",f:"Events and Culture"},{t:"FF and E Consultant",f:"Luxury and Hospitality"}],why:"Your answers reflect someone both creatively driven and practically minded. You want to create things that are beautiful and functional.",pdesc:"Raffles Jakarta's Interior Design program covers spatial design, materials, lighting, digital tools, and project management.",url:"https://www.raffles-indonesia.com/interiordesign"},
+  VD:{name:"Visual Communication Design",profile:"The Visual Communicator",desc:"You translate complex ideas into clear, beautiful visuals. You think in images, layouts, and systems. Your strength is making things both beautiful and understood.",careers:[{t:"Graphic Designer",f:"Design and Branding"},{t:"Brand Identity Designer",f:"Creative Agency"},{t:"UI/UX Designer",f:"Tech and Digital Product"},{t:"Motion Graphics Designer",f:"Media and Entertainment"},{t:"Art Director",f:"Creative Industry"}],why:"Your creative profile combined with a preference for visual storytelling signals a powerful visual communicator.",pdesc:"Raffles Jakarta offers Visual Communication Design and Digital Media Design programs covering typography, branding, UI/UX, and motion graphics.",url:"https://www.raffles-indonesia.com/visual-communication"},
+  BU:{name:"Business Administration",profile:"The Strategic Leader",desc:"You think in systems, strategies, and outcomes. You are drawn to leadership, entrepreneurship, and the challenge of building organisations that work.",careers:[{t:"Marketing Director",f:"Corporate and Brand"},{t:"Management Consultant",f:"Strategy and Advisory"},{t:"Entrepreneur",f:"Startups and Business"},{t:"Product Manager",f:"Tech and Innovation"},{t:"Business Development Manager",f:"Corporate"}],why:"Your Enterprising profile and consistent preferences for leadership and strategy point directly to business education.",pdesc:"Raffles Jakarta offers MBA and Business Administration programs covering strategy, leadership, marketing, and entrepreneurship.",url:"https://www.raffles-indonesia.com/master"},
+  TH:{name:"Tourism and Hospitality",profile:"The Experience Architect",desc:"You love making people feel welcome, cared for, and delighted. You thrive in dynamic, people-facing environments.",careers:[{t:"Hotel Manager",f:"Hospitality and Luxury"},{t:"Event Planner",f:"Events Industry"},{t:"Tourism Director",f:"Travel and Destination"},{t:"Guest Experience Manager",f:"Luxury Hospitality"},{t:"F and B Operations Manager",f:"Restaurant and Hotel"}],why:"Your Social orientation and preference for people-centred environments is a strong match for Tourism and Hospitality.",pdesc:"The Tourism and Hospitality Management program covers hotel operations, tourism management, event planning, and service excellence.",url:"https://www.raffles-indonesia.com/tourism-hospitality-management"},
+  AI:{name:"Artificial Intelligence and IT",profile:"The Problem Solver",desc:"You are endlessly curious about how things work at a deeper level. You love patterns, logic, and the thrill of solving complex problems.",careers:[{t:"AI Engineer",f:"Tech and Innovation"},{t:"Data Scientist",f:"Analytics and Research"},{t:"Software Developer",f:"Tech Industry"},{t:"Cybersecurity Analyst",f:"Tech and Security"},{t:"AI Product Manager",f:"Tech and Business"}],why:"Your Investigative Holland type and consistent preference for technical problem-solving signals someone built for AI and information technology.",pdesc:"Raffles Jakarta's AI and IT program covers machine learning, data science, programming, and applied AI systems.",url:"https://www.raffles-indonesia.com/information-technology-ai"},
+  PS:{name:"Psychology",profile:"The Human Understander",desc:"You are deeply curious about people and why they think, feel, and behave the way they do. You are empathetic and driven by a genuine desire to help others.",careers:[{t:"Psychologist",f:"Mental Health and Wellbeing"},{t:"HR Manager",f:"Corporate"},{t:"UX Researcher",f:"Tech and Product Design"},{t:"Child Development Specialist",f:"Education"},{t:"Organisational Psychologist",f:"Corporate and Consulting"}],why:"Your strong Social orientation and consistent choices toward understanding human behaviour point directly to Psychology.",pdesc:"Raffles Jakarta's Psychology program covers clinical psychology, counselling, organisational behaviour, and research methods.",url:"https://www.raffles-indonesia.com/psychology"}
+};
+
+let cQ=0,sel=null;
+let hS={R:0,I:0,A:0,S:0,E:0,C:0};
+let pS={FD:0,FM:0,ID:0,VD:0,BU:0,TH:0,AI:0,PS:0};
+const L=['A','B','C','D','E','F','G','H'];
+
+function startQuiz(){
+  document.getElementById('intro').style.display='none';
+  document.getElementById('quiz').classList.add('active');
+  renderQ();
+  scrollToTop();
+}
+
+function renderQ(){
+  const q=allQ[cQ];
+  const pct=Math.round((cQ/TOTAL)*100);
+  document.getElementById('prog-label').textContent='Question '+(cQ+1)+' of '+TOTAL;
+  document.getElementById('prog-pct').textContent=pct+'%';
+  document.getElementById('prog-fill').style.width=pct+'%';
+  let html='<div class="q-card active"><div class="q-num">Question '+String(cQ+1).padStart(2,'0')+'</div><div class="q-text">'+q.t+'</div><div class="options">';
+  q.o.forEach(function(opt,i){
+    html+='<button class="option" onclick="selectOpt(this,'+i+')"><div class="opt-letter">'+L[i]+'</div><div class="opt-text">'+opt.t+'</div></button>';
+  });
+  html+='</div></div>';
+  document.getElementById('q-container').innerHTML=html;
+  sel=null;
+  document.getElementById('btn-next').classList.remove('ready');
+  scrollToTop();
+}
+
+function selectOpt(el,i){
+  document.querySelectorAll('.option').forEach(function(o){o.classList.remove('selected');});
+  el.classList.add('selected');
+  sel=i;
+  document.getElementById('btn-next').classList.add('ready');
+}
+
+function nextQ(){
+  if(sel===null)return;
+  const q=allQ[cQ];
+  const inB=cQ>=sA.length;
+  if(!inB){hS[q.o[sel].h]++;}
+  else{pS[q.o[sel].p]++;}
+  cQ++;
+  if(cQ<TOTAL){renderQ();}
+  else{
+    document.getElementById('prog-fill').style.width='100%';
+    document.getElementById('prog-pct').textContent='100%';
+    document.getElementById('quiz').classList.remove('active');
+    document.getElementById('lead').classList.add('active');
+    scrollToTop();
+  }
+}
+
+function getResults(){
+  const keys=Object.keys(pS);
+  const sorted=keys.slice().sort(function(a,b){return pS[b]-pS[a];});
+  const primary=sorted[0];
+  const runner=sorted[1];
+  const gap=pS[primary]-pS[runner];
+  if(primary==='BU'||runner==='BU'){
+    if(hS['C']>hS['E']){progs['BU'].name="Business Administration";progs['BU'].url="https://www.raffles-indonesia.com/business-administration";}
+    else{progs['BU'].name="Master of Business Administration";progs['BU'].url="https://www.raffles-indonesia.com/master";}
+  }
+  return{primary:primary,runner:gap<=2?runner:null};
+}
+
+function showResults(){
+  const name=document.getElementById('inp-name').value.trim();
+  const email=document.getElementById('inp-email').value.trim();
+  const phone=document.getElementById('inp-phone').value.trim();
+  if(!name||!email||!phone){alert('Please fill in all fields to continue.');return;}
+  const r=getResults();
+  const p=progs[r.primary];
+  const fname=name.split(' ')[0];
+  document.getElementById('res-greeting').textContent=fname+', you are';
+  const profileParts=p.profile.split(' ');
+  const last=profileParts.pop();
+  document.getElementById('res-profile').innerHTML=profileParts.join(' ')+' <em>'+last+'</em>';
+  document.getElementById('res-desc').textContent=p.desc;
+  let cHtml='';
+  p.careers.forEach(function(c){cHtml+='<div class="career-item"><div class="career-title">'+c.t+'</div><div class="career-field">'+c.f+'</div></div>';});
+  document.getElementById('res-careers').innerHTML=cHtml;
+  let pHtml=buildCard(r.primary,false);
+  if(r.runner)pHtml+=buildCard(r.runner,true);
+  document.getElementById('res-programs').innerHTML=pHtml;
+  document.getElementById('lead').classList.remove('active');
+  document.getElementById('result').classList.add('active');
+  scrollToTop();
+}
+
+function buildCard(key,isRunner){
+  const p=progs[key];
+  const tag=isRunner?'Also a Strong Match':'Recommended Program';
+  const cls=isRunner?'program-card runner':'program-card';
+  return '<div class="'+cls+'"><div class="program-tag">'+tag+'</div><div class="program-name">'+p.name+'</div><div class="program-why">'+p.why+'</div><div class="program-desc">'+p.pdesc+'</div><a class="btn-apply" href="'+p.url+'" target="_blank">Explore Program</a></div>';
+}
+
+function retake(){
+  cQ=0;sel=null;
+  hS={R:0,I:0,A:0,S:0,E:0,C:0};
+  pS={FD:0,FM:0,ID:0,VD:0,BU:0,TH:0,AI:0,PS:0};
+  document.getElementById('result').classList.remove('active');
+  document.getElementById('intro').style.display='block';
+  scrollToTop();
+}
+
+function scrollToTop(){
+  window.scrollTo(0,0);
+  try{window.parent.scrollTo(0,0);}catch(e){}
+}
+</script>
+
+<script>
+function autoHeight() {
+  var h = document.body.scrollHeight;
+  window.parent.postMessage(JSON.stringify({type: 'wix-height', height: h}), '*');
+}
+window.onload = autoHeight;
+window.onresize = autoHeight;
+setInterval(autoHeight, 300);
+</script>
+
+</body>
+</html>
